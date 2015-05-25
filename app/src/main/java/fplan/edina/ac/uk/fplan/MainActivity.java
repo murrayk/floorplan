@@ -1,17 +1,29 @@
 package fplan.edina.ac.uk.fplan;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.qozix.tileview.TileView;
+
 
 public class MainActivity extends ActionBarActivity {
-
+    private TileView tileView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+        // Create our TileView
+        tileView = new TileView(this);
+        //2000 × 2829 pixels
+        // Set the minimum parameters
+        tileView.setSize(2000 * 2,2829 *2);
+        tileView.addDetailLevel(0.5f, "groundfloor/1000_%col%_%row%.jpg", "groundfloor/groundfloor.jpg");
+
+        // Add the view to display it
+        setContentView(tileView);
+        //setContentView(R.layout.activity_main);
     }
 
     @Override
