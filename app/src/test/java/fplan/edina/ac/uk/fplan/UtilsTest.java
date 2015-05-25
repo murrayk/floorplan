@@ -7,6 +7,14 @@ import junit.framework.TestCase;
  */
 public class UtilsTest extends TestCase {
 
+
+    final double xPixelsPerMeter = 0.0156292234461412,
+            D = 0,
+            B = 0,
+            yPixelsPerMeter = -0.0146227230090583,
+            topX = -354987.24210430972743779,
+            topY =7546999.58978366944938898;
+
     private static final String TAG = "UtilsTest";
 
     private static final double DELTA = 1e-5;
@@ -18,12 +26,6 @@ public class UtilsTest extends TestCase {
 
     public void testWorldFile(){
 
-        double xPixelsPerMeter = 0.0156292234461412,
-                D = 0,
-                B = 0,
-                yPixelsPerMeter = -0.0146227230090583,
-                topX = -354987.24210430972743779,
-                topY =7546999.58978366944938898;
 
 
         double X_proj = topX + (xPixelsPerMeter* 5000) ;
@@ -58,12 +60,27 @@ public class UtilsTest extends TestCase {
         //edinburgh univerisity library
         //55.942710, -3.18915
 
+
         Utils.LatLon latLon = utils.latLonToMeters(55.942710, -3.18915);
         System.out.println("lat in meters " + latLon.getLat() + " lon in meters " + latLon.getLon());
 
         assertEquals("lat in meters ", 7547019.280554745, latLon.getLat(), DELTA);
         assertEquals("lon in meters ", -355014.5540633685, latLon.getLon(), DELTA);
 
+    }
 
+    public void testLatLonToImagePixels(){
+        Utils utils = new Utils();
+
+        Utils.LatLon latLon1 = utils.latLonToMeters(55.942695, -3.188597);
+        System.out.println("lat in meters " + latLon1.getLat() + " lon in meters " + latLon1.getLon());
+        System.out.println("Difference " + (latLon1.getLat() - topY));
+        Utils.LatLon latLon = utils.latLonToImagePixels(latLon1.getLat(), latLon1.getLat());
+        double yPixel = (latLon1.getLat() - topY)/ -0.0146227230090583;
+        double xPixel = (latLon1.getLon() - topX)/ xPixelsPerMeter;
+        System.out.println("yPixel " + yPixel);
+        System.out.println("xPixel " + xPixel);
+        System.out.println("lat in pixels " + latLon.getLat() + " lon in pixels " + latLon.getLon());
+        assertEquals("lon in meters ", -355014.5540633685, latLon.getLon(), DELTA);
     }
 }
