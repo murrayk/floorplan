@@ -16,13 +16,13 @@ public class Utils {
     //Line 5: C: x-coordinate of the center of the upper left pixel
     //Line 6: F: y-coordinate of the center of the upper left pixel
     // formula from http://en.wikipedia.org/wiki/World_file
+    final double A = 0.02476749115,
+            D = 0.007008493559,
+            B = 0.006617771404,
+            E = -0.02338670833,
+            C = -355077.5328,
+            F = 7547044.7;
 
-    double xPixelsPerMeter = 0.0156292234461412,
-            D = 0,
-            B = 0,
-            yPixelsPerMeter = -0.0146227230090583,
-            topX = -354987.24210430972743779,
-            topY =7546999.58978366944938898;
 
     /**
         Converts given lat/lon in WGS84 Datum to XY in Spherical Mercator EPSG:900913
@@ -37,16 +37,17 @@ public class Utils {
     }
 
 
-    public LatLon latLonToImagePixels(double latMeters, double lonMeters){
-        double x = (lonMeters - topX)/ xPixelsPerMeter;
+    public LatLon latLonToImagePixels(double y1, double x1){
+
         //console.log("p " + p);
 
-
+        //x = (Ex' - By' +BF -EC)/(AE -DB)
+        double x = (E*x1 - B*y1 + B*F - E*C )/(A*E - D*B);
+        //y = (-Dx' + Ay' + DC - AF)/(AE - DB)
+        double y = (-D*x1 + A*y1 + D*C - A*F)/(A*E - D*B);
         //move Y 2000 m
 
         //System.out.println( "Y_proj " + Y_proj);
-
-        double y = (latMeters - topY)/ yPixelsPerMeter;
         return new LatLon(y,x);
     }
 

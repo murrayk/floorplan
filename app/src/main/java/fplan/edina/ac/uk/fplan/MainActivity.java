@@ -18,10 +18,13 @@ public class MainActivity extends ActionBarActivity {
         tileView = new TileView(this);
         //2000 × 2829 pixels
         // Set the minimum parameters
-        tileView.setSize(2000 ,2829);
+        tileView.setSize( 5657, 4000);
         tileView.addDetailLevel(1f, "groundfloor/1000_%col%_%row%.jpg", "groundfloor/groundfloor.jpg");
-        tileView.moveToAndCenter(1000,1000);
+
+
+        tileView.moveToAndCenter(1000, 1000);
         // Add the view to display it
+        tileView.setCacheEnabled(true);
         setContentView(tileView);
 
 

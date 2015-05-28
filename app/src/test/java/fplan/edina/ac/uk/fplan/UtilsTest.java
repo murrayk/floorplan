@@ -8,52 +8,21 @@ import junit.framework.TestCase;
 public class UtilsTest extends TestCase {
 
 
-    final double xPixelsPerMeter = 0.0156292234461412,
-            D = 0,
-            B = 0,
-            yPixelsPerMeter = -0.0146227230090583,
-            topX = -354987.24210430972743779,
-            topY =7546999.58978366944938898;
+
+
 
     private static final String TAG = "UtilsTest";
 
-    private static final double DELTA = 1e-5;
+    private static final double DELTA = 1e-1;
 
     public void setUp() throws Exception {
         super.setUp();
 
     }
 
-    public void testWorldFile(){
 
 
-
-        double X_proj = topX + (xPixelsPerMeter* 5000) ;
-        double Y_proj = topY + (yPixelsPerMeter * 1) ;
-        System.out.println("X_proj " + X_proj);
-        System.out.println( "Y_proj " + Y_proj);
-
-        //var pos = new OpenLayers.LonLat(X_proj,Y_proj);
-        //map.setCenter(pos);
-
-        double p = (X_proj - topX)/ xPixelsPerMeter;
-        //console.log("p " + p);
-        System.out.println("p " + p);
-        assertEquals("move x 5000 meters ", 5000,p, DELTA);
-
-        //move Y 2000 m
-
-        Y_proj = topY + (yPixelsPerMeter * 2000) ;
-        System.out.println( "Y_proj " + Y_proj);
-
-        p = (Y_proj - topY)/ yPixelsPerMeter;
-        assertEquals("move y 2000 meters ", 2000, p, DELTA);
-        System.out.println("Y_proj " + p);
-
-    }
-
-
-    public void testLatLonToMeters(){
+    public void testLatLonToMeters() {
 
         Utils utils = new Utils();
 
@@ -69,18 +38,15 @@ public class UtilsTest extends TestCase {
 
     }
 
-    public void testLatLonToImagePixels(){
+    public void testLatLonToImagePixels() {
         Utils utils = new Utils();
+        //bottom right of image
+        Utils.LatLon latLon = utils.latLonToImagePixels(7546992.67, -354927.1);
 
-        Utils.LatLon latLon1 = utils.latLonToMeters(55.942695, -3.188597);
-        System.out.println("lat in meters " + latLon1.getLat() + " lon in meters " + latLon1.getLon());
-        System.out.println("Difference " + (latLon1.getLat() - topY));
-        Utils.LatLon latLon = utils.latLonToImagePixels(latLon1.getLat(), latLon1.getLat());
-        double yPixel = (latLon1.getLat() - topY)/ -0.0146227230090583;
-        double xPixel = (latLon1.getLon() - topX)/ xPixelsPerMeter;
-        System.out.println("yPixel " + yPixel);
-        System.out.println("xPixel " + xPixel);
-        System.out.println("lat in pixels " + latLon.getLat() + " lon in pixels " + latLon.getLon());
-        assertEquals("lon in meters ", -355014.5540633685, latLon.getLon(), DELTA);
+        System.out.println("yPixel " + latLon.getLat());
+        System.out.println("xPixel " + latLon.getLon());
+
+        assertEquals("x pixels in image ",  5073.129808, latLon.getLon(), DELTA);
+        assertEquals("y pixels in image ",3745.075892, latLon.getLat(), DELTA);
     }
 }
